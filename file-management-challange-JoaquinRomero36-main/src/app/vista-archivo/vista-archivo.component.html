@@ -1,0 +1,102 @@
+
+@if(tabla){
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <h1 class="navbar-brand">Archivos</h1>
+          <form class="d-flex" role="search">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  Acciones
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#" (click)="agregar()">Agregar</a></li>
+                  <li><a class="dropdown-item" href="#" (click)="eliminar()">Eliminar</a></li>
+                </ul>
+              </div>
+            
+          </form>
+        </div>
+      </nav>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Dueños</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (archivo of archivos; track $index) {
+            @if(archivo.type.valueOf() == 0){
+                <tr>
+                    <td><input type="checkbox" value="{{ archivo.id }}"></td>
+                    <td>{{ archivo.name }}</td>
+                    <td>{{ archivo.creation | date:'MMM d, y'}}</td>
+                    <td>
+                      <ul>
+                         
+                         @for (owner of archivo.owners; track $index) {
+                                <img [src]="owner.avatarUrl" height="20" />
+                                {{ owner.name }}
+                         }             
+                      </ul>
+                    </td>
+                  </tr>
+            }
+          }
+          @for (archivo of archivos; track $index) {
+            @if(archivo.type.valueOf() == 1){
+                <tr>
+                    <td><input type="checkbox" value="{{ archivo.id }}"></td>
+                    <td>{{ archivo.name }}</td>
+                    <td>{{ archivo.creation | date:'MMM d, y'}}</td>
+                    <td>
+                      <ul>
+                         
+                         @for (owner of archivo.owners; track $index) {
+                                <img [src]="owner.avatarUrl" height="20" />
+                                {{ owner.name }}
+                         }             
+                      </ul>
+                    </td>
+                  </tr>
+            }
+          }
+        </tbody>
+      </table>
+}
+@else {
+    <div class="container">
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" >
+          </div>
+          <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Fecha</label>
+            <input type="date" class="form-control" id="fecha">
+          </div>
+          <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">tipo Archivo</label><br>
+            <select>
+                <option value="0">Carpeta</option>
+                <option value="1">Archivo</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Carpetas</label>
+            <input type="datetime" class="form-control" id="fecha">
+          </div>
+          <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Dueños</label><br>
+            <select>
+            @for (persona of peronas; track $index) {
+                <option value="{{persona.name}}">{{persona.name}}</option>
+            }
+        </select>
+          </div>
+              
+        <button (click)="volver()" class="btn btn-secondary" style="margin-right: 50%;">Volver</button>
+        <button (click)="crear()" class="btn btn-primary" >Crear</button>
+    </div>
+}
